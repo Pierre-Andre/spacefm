@@ -404,15 +404,17 @@ static void dispatch_event( VFSFileMonitor * monitor,
 {
     VFSFileMonitorCallbackEntry * cb;
     VFSFileMonitorCallback func;
-    int i;
+    int i, savelen;
     /* Call the callback functions */
     if ( monitor->callbacks && monitor->callbacks->len )
-    {
+      {
+        savelen=monitor->callbacks->len;
         cb = ( VFSFileMonitorCallbackEntry* ) monitor->callbacks->data;
-        for ( i = 0; i < monitor->callbacks->len; ++i )
-        {
+        for ( i = 0; i < savelen; ++i )
+          {
             func = cb[ i ].callback;
-            func( monitor, evt, file_name, cb[ i ].user_data );
+            if (func!=NULL)
+              func( monitor, evt, file_name, cb[ i ].user_data );
         }
     }
 }
