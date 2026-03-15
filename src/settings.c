@@ -2728,9 +2728,9 @@ gboolean xset_get_bool( const char* name, const char* var )
 gboolean xset_get_bool_panel( int panel, const char* name, const char* var )
 {
     char* fullname = g_strdup_printf( "panel%d_%s", panel, name );
-    gboolean bool = xset_get_bool( fullname, var );
+    gboolean truthy = xset_get_bool( fullname, var );
     g_free( fullname );
-    return bool;
+    return truthy;
 }
 
 int xset_get_int_set( XSet* set, const char* var )
