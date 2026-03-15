@@ -2984,7 +2984,7 @@ void xset_parse( char* line )
     }
 }
 
-XSet* xset_set_cb( const char* name, void (*cb_func) (), gpointer cb_data )
+XSet* xset_set_cb_internal( const char* name, void (*cb_func) (GtkWidget*, gpointer), gpointer cb_data )
 {
     XSet* set = xset_get( name );
     set->cb_func = cb_func;
@@ -2992,10 +2992,10 @@ XSet* xset_set_cb( const char* name, void (*cb_func) (), gpointer cb_data )
     return set;
 }
 
-XSet* xset_set_cb_panel( int panel, const char* name, void (*cb_func) (), gpointer cb_data )
+XSet* xset_set_cb_panel_internal( int panel, const char* name, void (*cb_func) (GtkWidget*, gpointer), gpointer cb_data )
 {
     char* fullname = g_strdup_printf( "panel%d_%s", panel, name );
-    XSet* set = xset_set_cb( fullname, cb_func, cb_data );
+    XSet* set = xset_set_cb_internal( fullname, cb_func, cb_data );
     g_free( fullname );
     return set;
 }
@@ -8584,7 +8584,7 @@ gboolean xset_menu_keypress( GtkWidget* widget, GdkEventKey* event,
 void xset_menu_cb( GtkWidget* item, XSet* set )
 {
     GtkWidget* parent;
-    void (*cb_func) () = NULL;
+    void (*cb_func) (GtkWidget*, gpointer) = NULL;
     gpointer cb_data = NULL;
     char* title;
     XSet* mset;  // mirror set or set
