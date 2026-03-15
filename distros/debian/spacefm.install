@@ -1,0 +1,8 @@
+etc/spacefm/spacefm.conf etc/spacefm
+usr/bin/* /usr/bin
+usr/share/applications/* /usr/share/applications/
+usr/share/doc/* usr/share/doc/
+usr/share/icons/* /usr/share/icons/
+usr/share/locale/* /usr/share/locale/
+usr/share/mime/* /usr/share/mime/
+usr/share/spacefm/ui/* /usr/share/spacefm/ui/
