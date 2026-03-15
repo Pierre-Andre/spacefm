@@ -1,5 +1,349 @@
-spacefm (1.0.6-1) unstable; urgency=low
+spacefm (1.0.6-10) unstable; urgency=medium
 
-  * release
+  * QA upload.
 
- -- IgnorantGuru <igsw@fastmail.com>  Sun, 04 Mar 2018 16:02:11 +0000
+  [ Henrique F. Simoes ]
+  * Fix FTBFS with GCC 15. (Closes: #1097912)
+
+ -- Adrian Bunk <bunk@debian.org>  Sat, 25 Oct 2025 13:04:29 +0300
+
+spacefm (1.0.6-9) unstable; urgency=medium
+
+  * QA upload.
+  * debian/: Apply wrap-and-sort -abst.
+  * Set maintainer to Debian QA Group. (see #1085047)
+  * debian/rules: Do not set explicit LDFLAGS.
+  * debian/control: Update Vcs-* fields to use Debian Salsa GitLab.
+  * debian/copyright: Use SPDX-compatible license names.
+
+ -- Boyuan Yang <byang@debian.org>  Tue, 17 Dec 2024 10:03:17 -0500
+
+spacefm (1.0.6-8) unstable; urgency=medium
+
+  * Add patch from Gentoo to fix FTBFS with gcc-14. (Closes: #1075530)
+  * Bump to Standards-Version to 4.7.0
+  * Switch B-D to pkgconf.
+  * d/control: Drop duplicate Priority field.
+  * Update d/source/lintian-overrides
+  * Update d/copyright.
+  * Add Rules-Requires-Root.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Fri, 30 Aug 2024 20:19:46 +0200
+
+spacefm (1.0.6-7) unstable; urgency=medium
+
+  * Switch B-D to libgdk-pixbuf-2.0-dev. (Closes: #1037400)
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Wed, 20 Sep 2023 21:00:18 +0200
+
+spacefm (1.0.6-6) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * Remove constraints unnecessary since buster:
+    + Build-Depends: Drop versioned constraint on libgtk2.0-dev.
+    + spacefm: Drop versioned constraint on spacefm and spacefm-common in
+      Replaces.
+    + spacefm: Drop versioned constraint on spacefm-common in Breaks.
+    + spacefm-common: Drop versioned constraint on spacefm in Replaces.
+    + spacefm-common: Drop versioned constraint on spacefm in Breaks.
+    + spacefm-gtk3: Drop versioned constraint on spacefm-common in Replaces.
+    + spacefm-gtk3: Drop versioned constraint on spacefm-common in Breaks.
+
+  [ Mateusz Łukasik ]
+  * Add patch for fix thumbnails location.
+  * Build only GTK3 version, create spacefm-gtk3 and spacefm-common
+    as transitional packages. (Closes: #967754)
+  * Bump to Standards-Version to 4.6.12
+  * Bump dh version to 13.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Mon, 31 Jul 2023 22:46:14 +0200
+
+spacefm (1.0.6-5) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * debian/copyright: use spaces rather than tabs to start continuation
+    lines.
+  * Wrap long lines in changelog entries: 1.0.6-1.
+  * Use secure URI in Homepage field.
+  * Set debhelper-compat version in Build-Depends.
+  * Set upstream metadata fields: Bug-Database, Bug-Submit, Repository,
+    Repository-Browse.
+  * Drop unnecessary dependency on dh-autoreconf.
+
+  [ Mateusz Łukasik ]
+  * Fix FTBFS with gcc-10. (Closes: #957829)
+    * debian/control:
+    + Bump to Standards-Version to 4.5.0.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Thu, 13 Aug 2020 11:45:23 +0200
+
+spacefm (1.0.6-4) unstable; urgency=medium
+
+  * debian/patches:
+    + Add 0001-glibc-2.28-compatibility.patch for fix FTBFS with
+    glibc 2.28. (Closes: #916007)
+  * debian/control:
+    + Bump to Standards-Version to 4.2.1.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Sat, 15 Dec 2018 17:13:04 +0100
+
+spacefm (1.0.6-3) unstable; urgency=medium
+
+  * Added all cases to postrm script. (Closes: #893237)
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Sun, 29 Apr 2018 22:36:49 +0200
+
+spacefm (1.0.6-2) unstable; urgency=medium
+
+  * Fix postrm script. (Closes: #893237)
+  * Add e2fsprogs to spacefm depends too. (Closes: #887257)
+  * Bump to Standards-Version to 4.1.4.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Sat, 21 Apr 2018 23:40:16 +0200
+
+spacefm (1.0.6-1) unstable; urgency=medium
+
+  * New upstream release. (Closes: #892054)
+    + Drop all patches included upstream.
+  * debian/control:
+    + Bump debhelper version to 11.
+    + Bump to Standards-Version to 4.1.3.
+    + Add e2fsprogs to depends. (Closes: #887177 #887257)
+  * debian/patches:
+    + Add drop-gnome-common-macros.patch to drop deprecated gnome-common
+    macros/variables. (Closes: #830003)
+    + Add add_optional_close_last_tab.patch to Optionally close the
+      panel/application
+    when last tab is closed.
+  * Update debian/copyright.
+  * Drop changes from Ubuntu - fixed upstream.
+  * Drop postinst script and clean postrm. (Closes: #860846)
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Thu, 15 Mar 2018 10:54:24 +0100
+
+spacefm (1.0.5-2) unstable; urgency=medium
+
+  * debian/control:
+    + Drop libdbus-1-dev from B-D and move dbus from Depends to Suggests.
+    + Bump to Standards-Version to 3.9.8.
+    + Add Breaks and Replaces for spacefm-common (<< 1.0.5-2).
+  * debian/watch: Bump to version 4.
+  * debian/*.install: move /etc/spacefm/spacefm.conf from spacefm-common to
+    spacefm{,-gtk3}. (Closes: #825568)
+  * Cherry-pick fixes from upstream next git branch:
+    + cf19fb3: Rename dlg canonicalize Copy Target/Link Target target when
+      possible
+    + 9ca8616: [installer] fix mktemp template and error handling for busybox
+    + 83332d0: [GTK2] fix black background dir load regression
+    + d75271e: [GTK2] fix black background dir load regression
+    + 6ee12b2: [GTK3.20] fix theme parse warnings re close btn css
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Fri, 10 Jun 2016 10:42:45 +0200
+
+spacefm (1.0.5-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/copyright:
+    + Update dates.
+    + Change license for Makefile.in to GAP~Makefile.in.
+  * Drop debian/menu file.
+  * Add debian/patches/drop_spacefm-installer.patch to drop spacefm-installer
+    script which is no needed in binary system like Debian.
+  * Add debian/patches/fix-spelling-error.patch to fix lintian warning.
+  * debian/control:
+    + Bump to Standards-Version to 3.9.7.
+    + Use https for vcs-git.
+  * debian/rules:
+    + Use hardening=+all for build flags.
+    + Drop override_dh_installman.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Wed, 02 Mar 2016 18:59:25 +0100
+
+spacefm (1.0.4-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/spacefm-common.install:
+    + Install gtk2/etc/spacefm/spacefm.conf into /etc/spacefm/.
+  * Update debian/clean_gtk3.sh:
+    + Add gtk3/etc/spacefm/ to the list of files to be cleaned.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Sun, 18 Oct 2015 22:43:53 +0200
+
+spacefm (1.0.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/control:
+    + Bump minimal version of libffmpegthumbnailer-dev to 2.0.10.
+  * Refresh debian/patches/update_desktop_files.patch
+  * Fix lintian warnings in spacefm*.post{rm,inst} files.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Mon, 31 Aug 2015 12:59:04 +0200
+
+spacefm (1.0.1-1) unstable; urgency=medium
+
+  * New upstream release. (Closes: #737722, #750510)
+  * debian/control:
+    + Add Breaks field to spacefm-common.
+  * debian/spacefm*.postrm:
+    + Add removal of /etc/spacefm during purge. (Closes: #782975)
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Fri, 08 May 2015 13:27:37 +0200
+
+spacefm (1.0.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Upload to unstable.
+  * debian/control:
+    + Update homepage.
+    + Add libffmpegthumbnailer-dev to Build-Depends.
+    + Remove Breaks field - no longer needed.
+  * Remove debian/patches/0001-fix-issue-468.patch -- included upstream.
+  * Update debian/copyright.
+  * Remove debian/spacefm*.lintian-overrides.
+  * Add debian/source/lintian-overrides for
+    debian-watch-may-check-gpg-signature.
+  * debian/rules: Drop obsolete override_dh_builddeb.
+  * Remove debian/source/options -- no longer needed.
+  * Update debian/watch.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Tue, 14 Apr 2015 15:39:36 +0200
+
+spacefm (0.9.4+git20140406-1) experimental; urgency=medium
+
+  * Upload to experimental.
+  * Merged latest snapshot from upstream git "hand" branch.
+  * debian/control:
+    + Drop deprecated udisks1 from Recommends. (Closes: #750510)
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Thu, 05 Jun 2014 22:54:02 +0200
+
+spacefm (0.9.4-2) unstable; urgency=high
+
+  * Add debian/patches/0001-fix-issue-468.patch to fix crash when
+    spacefm is running on glib2.0 >= 2.41.2. (Closes: #763575)
+  * debian/control:
+    + Bump Standards-Version to 3.9.6. (no changes needed)
+    + Drop deprecated udisks1 from Recommends. (Closes: #750510)
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Wed, 01 Oct 2014 20:42:31 +0200
+
+spacefm (0.9.4-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/rules:
+    + use dh-autoreconf during the build. (Closes: #727508)
+  * debian/control:
+    + replace autotools-dev by dh-autoreconf in Build-Depends.
+  * Remove debian/patches/fix_hardening_FTBFS.patch -- included upstream.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Fri, 04 Apr 2014 19:32:47 +0200
+
+spacefm (0.9.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/rules:
+    + fix build on Ubuntu derivatives.
+  * debian/control:
+    + remove lsb-release from build depends.
+  * Update debian/copyright.
+  * Remove debian/patches/fix_memory_leak.patch - included upstream.
+  * Add debian/patches/fix_hardening_FTBFS.patch to fix FTBFS related when
+    "-Wformat-security" is enabled.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Sun, 19 Jan 2014 22:26:23 +0100
+
+spacefm (0.9.2-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Add spacefm-common.dirs for run triggers to update icons cache.
+  * Remove spacefm-common.postinst, no longer needed.
+  * debian/control:
+    + update packages depends.
+    + add virtual package spacefm-hal.
+  * Update spacefm{,-gtk3).lintian-overrides.
+  * Add debian/patches/fix_memory_leak.patch from upstream to fix memory
+    leak on draw selection rectangle on desktop.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Wed, 18 Dec 2013 20:48:25 +0100
+
+spacefm (0.9.1+git20131124.29dbeba902-1) unstable; urgency=low
+
+  * Merged lastest upstream bugfix git tree.
+  * debian/spacefm-common.postinst:
+    + add initial generating of icon cache. (Closes: #729552)
+  * debian/spacefm{,-gtk3}.postinst:
+    + remove generating icons cache from script.
+  * debian/control:
+    + add long description by omegaphil.
+    + move sshfs to suggests.
+    + update spacefm-common depends.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Thu, 28 Nov 2013 17:46:47 +0100
+
+spacefm (0.9.1-1) unstable; urgency=low
+
+  * New upstream release. (LP: #1247918)
+  * debian/rules:
+    + add a script which detects whether the package is built on Ubuntu
+      to patch the desktop file to fix issue with the Unity global menu.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Wed, 06 Nov 2013 16:54:34 +0100
+
+spacefm (0.9.0-3) unstable; urgency=low
+
+  * debian/control:
+    + bump version in Breaks and Replaces to really fix upgrade issue.
+    (Closes: #728158)
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Thu, 31 Oct 2013 20:46:45 +0100
+
+spacefm (0.9.0-2) unstable; urgency=high
+
+  * debian/control:
+    + update Breaks and Replaces to fix upgrade issue
+      for spacefm-common package. (Closes: #728158)
+    + Bump standards to 3.9.5.0 (no changes required).
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Tue, 29 Oct 2013 07:45:56 +0100
+
+spacefm (0.9.0-1) unstable; urgency=low
+
+  * New upstream release:
+    + remove debian/patches/fix_included_inotify.patch, included upstream.
+    + repack upstream sources, remove distro directory.
+  * Install all doc and ui files into spacefm-common package.
+  * debian/rules:
+    + use xz to compress packages.
+  * Update postinst script to show a message about updating icons cache.
+  * debian/rules:
+    + call dh with "--with autotools_dev" in debian/rules to fix
+      FTBFS on arm64. (Closes: #727508)
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Thu, 24 Oct 2013 09:00:30 +0200
+
+spacefm (0.8.7-3) unstable; urgency=low
+
+  * Update postinst and postrm scripts to fix an
+    install issue detected by piuparts. (Closes: #722461)
+  * Add debian/patches/fix_included_inotify.patch:
+    + fix FTBFS on m68k, mips and hppa.
+  * Update debian/control:
+    + remove pmount from suggests.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Thu, 19 Sep 2013 12:54:22 +0200
+
+spacefm (0.8.7-2) unstable; urgency=low
+
+  * debian/control:
+   + Replace spacefm-gtk2 with spacefm in recommends for spacefm-common
+     binary package. (Closes: #722126)
+  * Add lintian override for spelling-error-in-binary in spacefm and
+    spacefm-gtk3 packages.
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Sun, 08 Sep 2013 14:36:40 +0200
+
+spacefm (0.8.7-1) unstable; urgency=low
+
+  * Initial release. (Closes: #691811)
+
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Mon, 24 Jun 2013 15:01:40 +0200
