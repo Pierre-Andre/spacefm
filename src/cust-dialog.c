@@ -1603,6 +1603,7 @@ static void write_file_value( const char* path, const char* val )
 {
     int f;
     int add = 0;
+    size_t lenwrite;
     
     if ( !path )
         return;
@@ -1622,7 +1623,11 @@ static void write_file_value( const char* path, const char* val )
             dlg_warn( _("error writing file %s: %s"), path + add,
                                                         g_strerror( errno ) );
         else if ( !strchr( val, '\n' ) )
-            write( f, "\n", 1 );
+          {
+            lenwrite=write( f, "\n", 1 );
+            if (lenwrite<0)
+              fprintf(stderr, "spacefm: %s\n", "write error in send response error" );
+          }
     }
     close( f );
 }
