@@ -374,6 +374,7 @@ gboolean single_instance_check()
     int addr_len;
     int ret;
     int reuse;
+    size_t lenwrite;
 
     if ( ( sock = socket( AF_UNIX, SOCK_STREAM, 0 ) ) == -1 )
     {
@@ -401,14 +402,19 @@ gboolean single_instance_check()
         if ( no_tabs )
         {
             cmd = CMD_NO_TABS;
-            write( sock, &cmd, sizeof(char) );
+            lenwrite = write( sock, &cmd, sizeof(char) );
+            if (lenwrite<0)
+              fprintf(stderr, "spacefm: %s\n", "write error" );
+
             // another command always follows CMD_NO_TABS
             cmd = CMD_OPEN_TAB;
         }
         if ( reuse_tab )
         {
             cmd = CMD_REUSE_TAB;
-            write( sock, &cmd, sizeof(char) );
+            lenwrite = write( sock, &cmd, sizeof(char) );
+            if (lenwrite<0)
+              fprintf(stderr, "spacefm: %s\n", "write error" );
             // another command always follows CMD_REUSE_TAB
             cmd = CMD_OPEN;
         }
@@ -442,11 +448,16 @@ gboolean single_instance_check()
         if ( cmd == CMD_OPEN_TAB && !files )
             cmd = CMD_OPEN;
             
-        write( sock, &cmd, sizeof(char) );
+        lenwrite = write( sock, &cmd, sizeof(char) );
+        if (lenwrite<0)
+          fprintf(stderr, "spacefm: %s\n", "write error open window" );
+
         if( G_UNLIKELY( show_pref > 0 ) )
         {
             cmd = (unsigned char)show_pref;
-            write( sock, &cmd, sizeof(char) );
+            lenwrite = write( sock, &cmd, sizeof(char) );
+          if (lenwrite<0)
+            fprintf(stderr, "spacefm: %s\n", "write error  open window" );   
         }
         else
         {
@@ -465,9 +476,13 @@ gboolean single_instance_check()
                            $PWDs resolution would not work. */
                         real_path = dup_to_absolute_file_path( file );
                     }
-                    write( sock, real_path, strlen( real_path ) );
+                    lenwrite = write( sock, real_path, strlen( real_path ) );
+                    if (lenwrite<0)
+                      fprintf(stderr, "spacefm: %s\n", "write error on socket, path" );
                     g_free( real_path );
-                    write( sock, "\n", 1 );
+                    lenwrite = write( sock, "\n", 1 );
+                    if (lenwrite<0)
+                       fprintf(stderr, "spacefm: %s\n", "write error on socket, CR" ); 
                 }
             }
         }
@@ -542,6 +557,7 @@ void receive_socket_command( int client, GString* args )  //sfm
     char** arg;
     char cmd;
     char* reply = NULL;
+    size_t lenwrite;
     
     if ( args->str[1] )
     {
@@ -593,9 +609,15 @@ void receive_socket_command( int client, GString* args )  //sfm
     g_free( inode_tag );
     
     // send response
-    write( client, &cmd, sizeof(char) );  // send exit status
+    lenwrite = write( client, &cmd, sizeof(char) );  // send exit status
+    if (lenwrite<0)
+      fprintf(stderr, "spacefm: %s\n", "write error in send response error" );
     if ( reply && reply[0] )
-        write( client, reply, strlen( reply ) ); // send reply or error msg
+    {
+        lenwrite = write( client, reply, strlen( reply ) ); // send reply or error msg
+        if (lenwrite<0)
+          fprintf(stderr, "spacefm: %s\n", "write error in reply response error" );
+    }
     g_free( reply );
 }
 
@@ -604,6 +626,7 @@ int send_socket_command( int argc, char* argv[], char** reply )   //sfm
     struct sockaddr_un addr;
     int addr_len;
     int ret;
+    size_t lenwrite;
 
     *reply = NULL;
     if ( argc < 3 )
@@ -636,22 +659,35 @@ int send_socket_command( int argc, char* argv[], char** reply )   //sfm
 
     // send command
     char cmd = CMD_SOCKET_CMD;
-    write( sock, &cmd, sizeof(char) );
+    lenwrite = write( sock, &cmd, sizeof(char) );
+    if (lenwrite<0)
+      fprintf(stderr, "spacefm: %s\n", "write error on socket, cmd" );
 
     // send inode tag
     char* inode_tag = get_inode_tag();
-    write( sock, inode_tag, strlen( inode_tag ) );
-    write( sock, "\n", 1 );
+    lenwrite = write( sock, inode_tag, strlen( inode_tag ) );
+    if (lenwrite<0)
+     fprintf(stderr, "spacefm: %s\n", "write error on socket, inode tag" );
+    if (lenwrite<0)
+    lenwrite = write( sock, "\n", 1 );
+    if (lenwrite<0)
+     fprintf(stderr, "spacefm: %s\n", "write error on socket, CR" );
     g_free( inode_tag );
     
     // send arguments
     int i;
     for ( i = 2; i < argc; i++ )
     {
-        write( sock, argv[i], strlen( argv[i] ) );
-        write( sock, "\n", 1 );
+        lenwrite = write( sock, argv[i], strlen( argv[i] ) );
+        if (lenwrite<0)
+          fprintf(stderr, "spacefm: %s\n", "write error on socket, args" );
+        lenwrite = write( sock, "\n", 1 );
+        if (lenwrite<0)
+          fprintf(stderr, "spacefm: %s\n", "write error on socket, CR" );
     }
-    write( sock, "\n", 1 );
+    lenwrite = write( sock, "\n", 1 );
+    if (lenwrite<0)
+      fprintf(stderr, "spacefm: %s\n", "write error on socket, CR" );
     
     // get response
     GString* sock_reply = g_string_new_len( NULL, 2048 );
