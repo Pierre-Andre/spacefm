@@ -3083,7 +3083,7 @@ exo_icon_view_set_hadjustment (ExoIconView   *icon_view,
     if (!hadj)
         hadj = gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-    icon_view->priv->hadjustment = hadj;
+    icon_view->priv->hadjustment = hadj; 
     g_object_ref_sink (G_OBJECT (icon_view->priv->hadjustment));
 
     g_signal_connect (icon_view->priv->hadjustment, "value-changed",
