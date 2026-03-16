@@ -10491,6 +10491,7 @@ char *replace_string( const char* orig, const char* str, const char* replace,
     const char* cur;
     char* result = NULL;
     char* old_result;
+    char* blob_result;
     char* s;
 
     if ( !orig || !( s = strstr( orig, str ) ) )
@@ -10514,12 +10515,19 @@ char *replace_string( const char* orig, const char* str, const char* replace,
         if ( result )
         {
             old_result = result;
+            blob_result = g_strndup( cur, s - cur );
             result = g_strdup_printf( "%s%s%s", old_result,
-                                            g_strndup( cur, s - cur ), rep );
+                                     blob_result, rep );
+            g_free( blob_result );
             g_free( old_result );
         }
         else
-            result = g_strdup_printf( "%s%s", g_strndup( cur, s - cur ), rep );
+          {
+            blob_result = g_strndup( cur, s - cur );
+              result = g_strdup_printf( "%s%s", blob_result, rep );
+              g_free( blob_result );
+          }
+            
         cur = s + strlen( str );
         s = strstr( cur, str );
     } while ( s );
